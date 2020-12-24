@@ -23,28 +23,6 @@
       </div>
     </div>
     <script>
-
- /* Recebe o token via Cookie e salva no localStorage */
- var cookies = document.cookie.split(';');
-	  for (var i = 0; i < cookies.length; i++) {
-	    var name = cookies[i].split('=')[0].toLowerCase();
-	   var value = cookies[i].split('=')[1];
-	    if (name == ' token') {
-	      localStorage.setItem('token', value);
-
-	    } 
-	  }
-	  /* Ativa o recebimento de mensagens */
-	  window.addEventListener('message', receive);
-	    // Recebe a mensagem de que é pra "liberar" o Jogo
-	    function receive(event) {
-	    	console.log("client -> " + event.data);
-	        if(event.data.cmd=="liberarJogo"){
-	            console.log("<!--- LIBERAR JOGO DA UNITY ---!>");
-	        }        
-	    }
-
-
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/MemoryGameWeb.loader.js";
       var config = {
@@ -88,6 +66,14 @@
         });
       };
       document.body.appendChild(script);
+      function OnAppReady(){
+        window.parent.postMessage(
+          {
+            event_id:'carregado'            
+          },
+          "*" // or "www.parentpage.com"
+        );        
+      }
     </script>
     <script src="iframe.js"></script>
   </body>
